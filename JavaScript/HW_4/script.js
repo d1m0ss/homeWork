@@ -158,3 +158,38 @@ const fibonacciSum1 = fibonacci.reduce(function (accum, val) {
   return (accum += val);
 }, 0);
 console.log(fibonacciSum1);
+
+// #### Task 5 🖥
+
+const numbers1 = [5, 9, 13, 24, 54, 10, 13, 99, 1, 5];
+const findNumber = numbers1.find((val) => val % 2 === 0);
+console.log(findNumber);
+const findNumber1 = numbers1.find(function (val) {
+  return val % 2 === 0;
+});
+console.log(findNumber1);
+
+// ### ADVANCED level
+
+// #### Task 2 👨‍🏫 Тролли атакуют наш раздел с комментариями!!!
+
+const testCopment = "This website is for losers LOL!";
+const antiTroll = (string) => {
+  const vowels = ["A", "E", "I", "O", "U", "Y"];
+  let filteredComet;
+  let comentArr = [];
+  let leter = "";
+  for (let i = 0; i < string.length; i++) {
+    comentArr.push(string[i]);
+  }
+  filteredComet = comentArr.filter((val) => {
+    for (let i = 0; i < vowels.length; i++) {
+      if (val == vowels[i].toLowerCase()) {
+        return val
+      }
+    }
+  });
+  console.log(filteredComet);
+};
+
+antiTroll(testCopment);
