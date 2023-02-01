@@ -85,14 +85,14 @@ let bols = ["мячь", "мяча", "мячей"],
 
 if (score[0] === "1") {
   bol1 = bols[0];
-} else if (score[0] === "2" || score[0] === "3" || score[0] === "4") {
+} else if (score[0] > "1" && score[0] < "5") {
   bol1 = bols[1];
 } else {
   bol1 = bols[2];
 }
 if (score[1] === "1") {
   bol2 = bols[0];
-} else if (score[1] === "2" || score[1] === "3" || score[1] === "4") {
+} else if (score[1] > "1" && score[1] < "5") {
   bol2 = bols[1];
 } else {
   bol2 = bols[2];
@@ -174,22 +174,28 @@ console.log(findNumber1);
 // #### Task 2 👨‍🏫 Тролли атакуют наш раздел с комментариями!!!
 
 const testCopment = "This website is for losers LOL!";
+const vowels = ["A", "E", "I", "O", "U", "Y"];
 const antiTroll = (string) => {
-  const vowels = ["A", "E", "I", "O", "U", "Y"];
-  let filteredComet;
-  let comentArr = [];
-  let leter = "";
+  let filteredComet = "";
   for (let i = 0; i < string.length; i++) {
-    comentArr.push(string[i]);
-  }
-  filteredComet = comentArr.filter((val) => {
-    for (let i = 0; i < vowels.length; i++) {
-      if (val == vowels[i].toLowerCase()) {
-        return val
-      }
+    if (!vowels.includes(string[i].toUpperCase())) {
+      filteredComet += string[i];
     }
-  });
-  console.log(filteredComet);
+  }
+  return filteredComet;
 };
+console.log(antiTroll(testCopment));
 
-antiTroll(testCopment);
+// #### Task 3 👨‍🏫 Нет истории, нет теории
+
+const accum = (string) => {
+  let repeatedString = "";
+  for (let i = 0; i < string.length; i++) {
+    repeatedString +=
+      string[i].toUpperCase() + string[i].repeat(i).toLowerCase() + "-";
+  }
+  return repeatedString.slice(0, -1);
+};
+console.log(accum("abcd"));
+console.log(accum("RqaEzty"));
+console.log(accum("cwAt"));
