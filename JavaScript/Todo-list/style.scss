@@ -1,0 +1,68 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+%boder {
+  border: 2px black solid;
+  border-radius: 10px;
+}
+
+%text {
+  width: 100%;
+  text-align: center;
+  background: white;
+}
+
+.root {
+  max-width: max-content;
+  margin: auto;
+  background: rgb(213, 213, 213);
+  padding: 10px;
+  @extend %boder;
+  &__header {
+    margin-bottom: 20px;
+  }
+  &__body {
+  }
+  &__button {
+    cursor: pointer;
+    @extend %boder;
+    max-width: max-content;
+    padding: 10px 15px;
+    background: rgb(23, 231, 206);
+  }
+  &__list-item {
+  }
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    @extend %boder;
+  }
+  &__item-right-bar {
+    display: flex;
+    flex-direction: column;
+    min-width: 60px;
+  }
+  &__item-right-bar > &__button {
+    margin-left: auto;
+    margin-bottom: 10px;
+  }
+  &__text {
+    @extend %text;
+    padding: 10px 0;
+    margin: 0 10px;
+  }
+  &__input {
+    max-width: 150px;
+    padding: 10px 35px;
+  }
+  &__check-box {
+  }
+  &__date {
+    @extend %text;
+  }
+}

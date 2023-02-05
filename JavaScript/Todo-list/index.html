@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="root" id="root">
+      <header class="root__header">
+        <button type="submit" class="root__button">Clear All</button>
+        <input type="text" name="" id="" class="root__input" placeholder="Enter todo ..." />
+        <button type="submit" class="root__button">Add</button>
+      </header>
+      <div class="root__body" id="toDoBody">
+        <div class="root__list-item" id="rootListItem">
+          <label class="root__wrapper" for="rootCheckBox">
+            <input
+              type="checkbox"
+              name=""
+              class="root__check-box"
+              id="rootCheckBox"
+            />
+            <span class="root__text">Text</span>
+            <div class="root__item-right-bar">
+              <button type="submit" class="root__button">X</button>
+              <span class="root__date">Date</span>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
