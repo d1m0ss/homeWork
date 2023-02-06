@@ -77,7 +77,7 @@ listBox.append(listButton, listDate);
 
 root.append(toDoHeader, toDoBody);
 
-const listQuantity = (number = Math.ceil(Math.random() * 5)) => {
+const listQuantity = (number) => {
   for (let i = 0; i < number; ++i) {
     const listWrapperClone = listWrapper.cloneNode(true);
     toDoBody.append(listWrapperClone);
