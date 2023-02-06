@@ -53,7 +53,7 @@ listCountAll.innerText = `All: ${allCount}`;
 bottomButtonShowAll.innerText = "Show All";
 topButtonAdd.innerText = "Add";
 listDate.innerText = "Date";
-listText.innerText = "Text";
+listText.innerText = "ToDo Text";
 listButton.innerText = "X";
 
 const headerRowBottom = headerRowTop.cloneNode(true);
@@ -77,11 +77,8 @@ listBox.append(listButton, listDate);
 
 root.append(toDoHeader, toDoBody);
 
-const listQuantity = (number) => {
-  for (let i = 0; i < number; ++i) {
-    const listWrapperClone = listWrapper.cloneNode(true);
-    toDoBody.append(listWrapperClone);
-  }
-};
-
-listQuantity(allCount);
+for (let i = 0; i < allCount; ++i) {
+  const listWrapperClone = listWrapper.cloneNode(true);
+  toDoBody.append(listWrapperClone);
+  listText.innerText = `ToDo Text`;
+}
