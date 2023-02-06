@@ -16,31 +16,47 @@
 }
 
 .root {
+  @extend %boder;
   max-width: max-content;
   margin: auto;
   background: rgb(213, 213, 213);
   padding: 10px;
-  @extend %boder;
-  &__header {
+  margin-top: 50px;
+  // &__header {
+  // }
+  &__header-row {
     margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    white-space: nowrap;
   }
   &__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   &__button {
-    cursor: pointer;
     @extend %boder;
+    cursor: pointer;
     max-width: max-content;
     padding: 10px 15px;
     background: rgb(23, 231, 206);
+    width: max-content;
   }
-  &__list-item {
-  }
+  // &__list-item {
+  // }
   &__wrapper {
+    @extend %boder;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px;
-    @extend %boder;
+    max-width: 500px;
+    width: 100%;
+  }
+  &__wrapper:not(:first-child) {
+    margin-top: 20px;
   }
   &__item-right-bar {
     display: flex;
@@ -57,11 +73,15 @@
     margin: 0 10px;
   }
   &__input {
-    max-width: 150px;
-    padding: 10px 35px;
+    @extend %boder;
+    width: 100%;
+    padding: 10px 10px;
   }
-  &__check-box {
+  &__input::placeholder {
+    text-align: center;
   }
+  // &__check-box {
+  // }
   &__date {
     @extend %text;
   }

@@ -5,7 +5,7 @@
           box-sizing: border-box;
 }
 
-.root__wrapper, .root__button, .root {
+.root__input, .root__wrapper, .root__button, .root {
   border: 2px black solid;
   border-radius: 10px;
 }
@@ -23,9 +23,30 @@
   margin: auto;
   background: rgb(213, 213, 213);
   padding: 10px;
+  margin-top: 50px;
 }
-.root__header {
+.root__header-row {
   margin-bottom: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 15px;
+  white-space: nowrap;
+}
+.root__body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 .root__button {
   cursor: pointer;
@@ -34,6 +55,9 @@
   max-width: max-content;
   padding: 10px 15px;
   background: rgb(23, 231, 206);
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
 }
 .root__wrapper {
   display: -webkit-box;
@@ -46,6 +70,11 @@
       -ms-flex-pack: justify;
           justify-content: space-between;
   padding: 10px;
+  max-width: 500px;
+  width: 100%;
+}
+.root__wrapper:not(:first-child) {
+  margin-top: 20px;
 }
 .root__item-right-bar {
   display: -webkit-box;
@@ -66,6 +95,21 @@
   margin: 0 10px;
 }
 .root__input {
-  max-width: 150px;
-  padding: 10px 35px;
+  width: 100%;
+  padding: 10px 10px;
+}
+.root__input::-webkit-input-placeholder {
+  text-align: center;
+}
+.root__input::-moz-placeholder {
+  text-align: center;
+}
+.root__input:-ms-input-placeholder {
+  text-align: center;
+}
+.root__input::-ms-input-placeholder {
+  text-align: center;
+}
+.root__input::placeholder {
+  text-align: center;
 }
