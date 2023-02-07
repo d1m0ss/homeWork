@@ -93,6 +93,7 @@
 .root__text {
   padding: 10px 0;
   margin: 0 10px;
+  cursor: text;
 }
 .root__input {
   width: 100%;

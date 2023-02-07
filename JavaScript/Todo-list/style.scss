@@ -71,6 +71,7 @@
     @extend %text;
     padding: 10px 0;
     margin: 0 10px;
+    cursor: text;
   }
   &__input {
     @extend %boder;
