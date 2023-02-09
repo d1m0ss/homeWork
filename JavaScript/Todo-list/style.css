@@ -16,6 +16,10 @@
   background: white;
 }
 
+.hiden {
+  display: none;
+}
+
 .root {
   max-width: -webkit-max-content;
   max-width: -moz-max-content;
@@ -40,6 +44,7 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  gap: 20px;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -69,12 +74,10 @@
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  gap: 15px;
   padding: 10px;
   max-width: 500px;
   width: 100%;
-}
-.root__wrapper:not(:first-child) {
-  margin-top: 20px;
 }
 .root__item-right-bar {
   display: -webkit-box;
@@ -98,6 +101,7 @@
 .root__input {
   width: 100%;
   padding: 10px 10px;
+  text-align: center;
 }
 .root__input::-webkit-input-placeholder {
   text-align: center;
