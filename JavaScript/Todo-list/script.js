@@ -24,7 +24,7 @@ const headerRowTop = createElement("section", {
 });
 const listWrapper = createElement("article", { className: "root__wrapper" });
 const listBox = createElement("div", { className: "root__item-right-bar" });
-const toDoHeader = createElement("header", { classnName: "root__header" });
+const toDoHeader = createElement("header", { className: "root__header" });
 const listDate = createElement("span", { className: "root__date" });
 const root = document.getElementById("root");
 const listCount = createElement("span");
@@ -66,28 +66,19 @@ function createElement(tagName, options) {
   return element;
 }
 
-function totalCount() {
-  const count = document.getElementById("countAll");
-  count.innerText = `All: ${toDoBody.children.length}`;
-}
-
-function showAllBtn() {
-  const allElement = todoBody.querySelectorAll(".hiden");
-  allElement.forEach((item) => {
-    item.style.display === "none"
-      ? (item.style.display = "flex")
-      : (item.style.display = "none");
-  });
-  console.log(allElement);
-  completedCount();
+const todoDeleteAll = () => {
+  for (let i = toDoBody.childElementCount; i > 0; i--) {
+    toDoBody.children[0].remove();
+  }
   totalCount();
-}
+  completedCount();
+};
 
-function completedCount() {
-  const count = document.getElementById("completeCount");
-  const quantity = todoBody.querySelectorAll(".hiden");
-  count.innerText = `Completed: ${quantity.length}`;
-}
+const todoDeleteLast = () => {
+  toDoBody.children[toDoBody.childElementCount - 1].remove();
+  totalCount();
+  completedCount();
+};
 
 const todoAdd = () => {
   if (topInput.value === "") {
@@ -99,7 +90,7 @@ const todoAdd = () => {
     const date = new Date();
     listDate.innerText = date.toLocaleString();
     const listWrapperClone = listWrapper.cloneNode(true);
-    toDoBody.append(listWrapperClone);
+    todoBody.insertAdjacentElement("afterbegin", listWrapperClone);
     topInput.value = "";
     totalCount();
   }
@@ -110,25 +101,152 @@ const todoAddAtKey = (e) => {
   todoAdd();
 };
 
-const todoDeleteLast = () => {
-  toDoBody.children[toDoBody.childElementCount - 1].remove();
-  totalCount();
-  completedCount();
+const totalCount = () => {
+  const count = document.getElementById("countAll");
+  count.innerText = `All: ${toDoBody.children.length}`;
 };
 
-const todoDeleteAll = () => {
-  for (let i = toDoBody.childElementCount; i > 0; i--) {
-    toDoBody.children[0].remove();
+const completedCount = () => {
+  const count = document.getElementById("completeCount");
+  const quantity = todoBody.querySelectorAll(".hiden");
+  count.innerText = `Completed: ${quantity.length}`;
+};
+
+const showCompleted = () => {
+  const allElement = toDoBody.querySelectorAll(".root__wrapper");
+  console.log(toDoBody);
+  allElement.forEach((item) => {
+    if (item.style.display === "") {
+      item.style.display = "none";
+    } else {
+      item.style.display = "flex";
+    }
+    console.log(item.style.display === "");
+  });
+};
+
+const showAllBtn = () => {
+  const allElement = todoBody.querySelectorAll(".hiden");
+  allElement.forEach((item) => {
+    console.log(item.style.background);
+    if (item.style.display)
+      item.style.display === "none"
+        ? (item.style.display = "flex")
+        : (item.style.display = "none");
+  });
+  completedCount();
+  totalCount();
+};
+
+const todoFilter = (e) => {
+  if (e.keyCode !== 13) return;
+  const bodyItems = Array.from(todoBody.childNodes);
+  const inputFindValue = bottomInput.value;
+  const isSame = (item) => {
+    if (
+      inputFindValue.toLowerCase() === "" ||
+      inputFindValue.toLowerCase() === " "
+    )
+      return;
+    return item.textContent
+      .toLowerCase()
+      .includes(inputFindValue.toLowerCase());
+  };
+  const isSearchedItem = (item) => {
+    const filteredItems = Array.from(item.childNodes).filter(isSame);
+    if (filteredItems.length == 0) return;
+    bottomInput.value = "";
+    bottomInput.blur();
+    return filteredItems;
+  };
+  const findedItem = bodyItems.filter(isSearchedItem);
+  bodyItems.forEach((item) => {
+    item.style.background = "none";
+  });
+  findedItem.forEach((item) => {
+    item.style.background = "pink";
+    todoBody.insertAdjacentElement("afterbegin", item);
+  });
+};
+
+const todoFiltered = (element) => {
+  if (element.target.className !== "root__input") return;
+  element.target.addEventListener("keydown", todoFilter);
+};
+
+const completeTodo = (element) => {
+  const target = element.target;
+  const todoChecked = target.querySelector(".root__check-box");
+  const todoCheckedText = target.querySelector(".root__text");
+  if (target.className === "root__wrapper hiden") {
+    target.classList.remove("hiden");
   }
-  totalCount();
-  completedCount();
+  if (target.className !== "root__wrapper") return;
+  if (target.style.background === "green") {
+    if (target.children[1] == todoCheckedText) {
+      todoCheckedText.style.textDecoration = "none";
+    }
+    target.style.background = "none";
+    todoChecked.checked = false;
+    completedCount();
+    totalCount();
+  } else {
+    if (target.children[1] == todoCheckedText) {
+      todoCheckedText.style.textDecoration = "line-through";
+    }
+    target.style.background = "green";
+    target.style.display = "none";
+    todoChecked.checked = true;
+    target.classList.add("hiden");
+    todoBody.insertAdjacentElement("beforeend", target);
+    completedCount();
+    totalCount();
+  }
 };
 
-topButtonDeleteLast.addEventListener("click", todoDeleteLast);
-topButtonDeleteAll.addEventListener("click", todoDeleteAll);
-topButtonAdd.addEventListener("click", todoAdd);
-bottomButtonShowAll.addEventListener("click", showAllBtn);
-topInput.addEventListener("keydown", todoAddAtKey);
+const correctTodo = (element) => {
+  const target = element.target;
+  if (target.className !== "root__text") return;
+  const parentElem = target.parentElement.childNodes;
+  let targetContent = target.textContent;
+  const targetSource = target.outerHTML;
+  const inputElement = createElement("input", {
+    className: "root__input",
+    type: "text",
+    placeholder: "Enter todo text ...",
+  });
+  target.outerHTML = inputElement.outerHTML;
+  const inputArray = Array.from(parentElem).filter((item) => {
+    return item.className === "root__input";
+  });
+  const input = inputArray[0];
+  input.focus();
+  input.value = targetContent;
+  const backToSpan = () => {
+    targetContent = input.value;
+    input.outerHTML = targetSource;
+    const textArray = Array.from(parentElem).filter((item) => {
+      return item.className === "root__text";
+    });
+    const text = textArray[0];
+    text.textContent = targetContent;
+  };
+  const backToSpanKey = (e) => {
+    if (e.keyCode !== 13) return;
+    backToSpan();
+  };
+  input.addEventListener("blur", backToSpan);
+  input.addEventListener("keydown", backToSpanKey);
+  console.log(input);
+};
+
+const closeTodo = (elem) => {
+  const target = elem.target;
+  if (target.className !== "root__button") return;
+  elem.target.parentElement.parentElement.remove();
+  completedCount();
+  totalCount();
+};
 
 headerRowBottom.append(
   listCountAll,
@@ -156,63 +274,15 @@ for (let i = 0; i < allCount; ++i) {
   listText.innerText = listText.innerText;
 }
 
-const todoBody = document.getElementById("todoBody");
+const todoHead = document.getElementById("rootHeader");
 
-const completeTodo = (element) => {
-  const target = element.target;
-  const todoChecked = target.querySelector(".root__check-box");
-  const todoCheckedText = target.querySelector(".root__text");
-  if (target.className === "root__wrapper hiden") {
-    target.classList.remove("hiden");
-  }
-  if (target.className !== "root__wrapper") return;
-  if (target.style.background === "green") {
-    if (target.children[1] == todoCheckedText) {
-      todoCheckedText.style.textDecoration = "none";
-    }
-    target.style.background = "none";
-    todoChecked.checked = false;
-    completedCount();
-    totalCount();
-  } else {
-    if (target.children[1] == todoCheckedText) {
-      todoCheckedText.style.textDecoration = "line-through";
-    }
-    target.style.background = "green";
-    target.style.display = "none";
-    todoChecked.checked = true;
-    target.classList.add("hiden");
-    completedCount();
-    totalCount();
-  }
-};
-
-const correctTodo = (element) => {
-  const target = element.target;
-  if (target.className !== "root__text") return;
-  const inputElement = createElement("input", {
-    className: "root__input",
-    type: "text",
-    placeholder: "Enter todo text ...",
-  });
-  target.outerHTML = inputElement.outerHTML;
-};
-
-const closeTodo = (elem) => {
-  const target = elem.target;
-  if (target.className !== "root__button") return;
-  elem.target.parentElement.parentElement.remove();
-  completedCount();
-  totalCount();
-};
-
-const todoFilter = () => {
-  const filteredItems = todoBody.childNodes;
-  // console.log(todoBody.filter((item) => {  }));
-  todoBody.childNodes[0].classList.add("hiden");
-};
-
-todoBody.addEventListener("click", closeTodo);
-todoBody.addEventListener("click", completeTodo);
-todoBody.addEventListener("click", correctTodo);
-bottomInput.addEventListener("keydown", todoFilter);
+bottomButtonShowCompleted.addEventListener("click", showCompleted);
+topButtonDeleteLast.addEventListener("click", todoDeleteLast);
+topButtonDeleteAll.addEventListener("click", todoDeleteAll);
+bottomButtonShowAll.addEventListener("click", showAllBtn);
+toDoHeader.addEventListener("keydown", todoFiltered);
+topInput.addEventListener("keydown", todoAddAtKey);
+toDoBody.addEventListener("click", completeTodo);
+toDoBody.addEventListener("click", correctTodo);
+topButtonAdd.addEventListener("click", todoAdd);
+toDoBody.addEventListener("click", closeTodo);
