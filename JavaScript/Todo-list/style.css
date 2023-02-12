@@ -16,10 +16,6 @@
   background: white;
 }
 
-.hiden {
-  display: none;
-}
-
 .root {
   max-width: -webkit-max-content;
   max-width: -moz-max-content;

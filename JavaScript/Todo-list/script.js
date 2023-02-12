@@ -90,7 +90,7 @@ const todoAdd = () => {
     const date = new Date();
     listDate.innerText = date.toLocaleString();
     const listWrapperClone = listWrapper.cloneNode(true);
-    todoBody.insertAdjacentElement("afterbegin", listWrapperClone);
+    toDoBody.insertAdjacentElement("afterbegin", listWrapperClone);
     topInput.value = "";
     totalCount();
   }
@@ -108,31 +108,30 @@ const totalCount = () => {
 
 const completedCount = () => {
   const count = document.getElementById("completeCount");
-  const quantity = todoBody.querySelectorAll(".hiden");
+  const quantity = Array.from(
+    toDoBody.querySelectorAll(".root__wrapper")
+  ).filter((item) => {
+    console.log();
+    return item.style.background === "green";
+  });
   count.innerText = `Completed: ${quantity.length}`;
 };
 
 const showCompleted = () => {
   const allElement = toDoBody.querySelectorAll(".root__wrapper");
-  console.log(toDoBody);
   allElement.forEach((item) => {
-    if (item.style.display === "") {
-      item.style.display = "none";
-    } else {
+    if (item.style.background === "green") {
       item.style.display = "flex";
+    } else {
+      item.style.display = "none";
     }
-    console.log(item.style.display === "");
   });
 };
 
 const showAllBtn = () => {
-  const allElement = todoBody.querySelectorAll(".hiden");
+  const allElement = toDoBody.querySelectorAll(".root__wrapper");
   allElement.forEach((item) => {
-    console.log(item.style.background);
-    if (item.style.display)
-      item.style.display === "none"
-        ? (item.style.display = "flex")
-        : (item.style.display = "none");
+    item.style.display = "flex";
   });
   completedCount();
   totalCount();
@@ -176,29 +175,25 @@ const todoFiltered = (element) => {
 
 const completeTodo = (element) => {
   const target = element.target;
+  if (target.className !== "root__wrapper") return;
   const todoChecked = target.querySelector(".root__check-box");
   const todoCheckedText = target.querySelector(".root__text");
-  if (target.className === "root__wrapper hiden") {
-    target.classList.remove("hiden");
+  if (target.className === "root__wrapper completed") {
+    target.classList.remove("completed");
   }
-  if (target.className !== "root__wrapper") return;
   if (target.style.background === "green") {
-    if (target.children[1] == todoCheckedText) {
-      todoCheckedText.style.textDecoration = "none";
-    }
+    todoCheckedText.style.textDecoration = "none";
     target.style.background = "none";
+    target.style.display = "flex";
     todoChecked.checked = false;
     completedCount();
     totalCount();
   } else {
-    if (target.children[1] == todoCheckedText) {
-      todoCheckedText.style.textDecoration = "line-through";
-    }
+    todoCheckedText.style.textDecoration = "line-through";
     target.style.background = "green";
     target.style.display = "none";
     todoChecked.checked = true;
-    target.classList.add("hiden");
-    todoBody.insertAdjacentElement("beforeend", target);
+    toDoBody.insertAdjacentElement("beforeend", target);
     completedCount();
     totalCount();
   }
