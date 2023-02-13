@@ -25,45 +25,42 @@ const headerRowTop = createElement("section", {
 const listWrapper = createElement("article", { className: "root__wrapper" });
 const listBox = createElement("div", { className: "root__item-right-bar" });
 const toDoHeader = createElement("header", { className: "root__header" });
-const listDate = createElement("span", { className: "root__date" });
+const listDate = createElement("span", {
+  className: "root__date",
+  innerText: `${new Date().toLocaleString()}`,
+});
 const root = document.getElementById("root");
 const listCount = createElement("span");
 
-let completeCount = 0;
-let allCount = 2;
-const date = new Date();
+let completeCount = 0,
+  allCount = 2;
 
-const listCountCompleted = listCount.cloneNode(true);
-const listCountAll = listCount.cloneNode(true);
-const bottomInput = topInput.cloneNode(true);
-
-listCountCompleted.classList = "root__count-completed";
-listCountAll.classList = "root__count-all";
-
-const bottomButtonShowCompleted = listButton.cloneNode(true);
-const bottomButtonShowAll = listButton.cloneNode(true);
-const topButtonDeleteLast = listButton.cloneNode(true);
-const topButtonDeleteAll = listButton.cloneNode(true);
-const headerRowBottom = headerRowTop.cloneNode(true);
-const topButtonAdd = listButton.cloneNode(true);
-
-bottomInput.setAttribute("placeholder", "Search ...");
-listCountCompleted.setAttribute("id", "completeCount");
-listButton.setAttribute("id", "showAllButton");
-listCountAll.setAttribute("id", "countAll");
-
-listCountCompleted.innerText = `Completed: ${completeCount}`;
-bottomButtonShowCompleted.innerText = "Show Comleted";
-topButtonDeleteLast.innerText = "Delete Last";
-topButtonDeleteAll.innerText = "Delete All";
-listCountAll.innerText = `All: ${allCount}`;
-listDate.innerText = date.toLocaleString();
-bottomButtonShowAll.innerText = "Show All";
-topButtonAdd.innerText = "Add";
+const listCountCompleted = cloneNode(listCount, {
+  className: "root__count-completed",
+  id: "completeCount",
+  innerText: `Completed: ${completeCount}`,
+});
+const listCountAll = cloneNode(listCount, {
+  className: "root__count-all",
+  id: "countAll",
+  innerText: `All: ${allCount}`,
+});
+const bottomInput = cloneNode(topInput, { placeholder: "Search ..." });
+const bottomButtonShowCompleted = cloneNode(listButton, {
+  innerText: "Show Comleted",
+});
+const bottomButtonShowAll = cloneNode(listButton, { innerText: "Show All" });
+const topButtonDeleteLast = cloneNode(listButton, { innerText: "Delete Last" });
+const topButtonDeleteAll = cloneNode(listButton, { innerText: "Delete All" });
+const headerRowBottom = cloneNode(headerRowTop);
+const topButtonAdd = cloneNode(listButton, { innerText: "Add" });
 
 function createElement(tagName, options) {
-  const element = Object.assign(document.createElement(tagName), options);
-  return element;
+  return Object.assign(document.createElement(tagName), options);
+}
+
+function cloneNode(nodeName, options) {
+  return Object.assign(nodeName.cloneNode(true), options);
 }
 
 const todoDeleteAll = () => {
@@ -111,7 +108,6 @@ const completedCount = () => {
   const quantity = Array.from(
     toDoBody.querySelectorAll(".root__wrapper")
   ).filter((item) => {
-    console.log();
     return item.style.background === "green";
   });
   count.innerText = `Completed: ${quantity.length}`;
@@ -139,7 +135,7 @@ const showAllBtn = () => {
 
 const todoFilter = (e) => {
   if (e.keyCode !== 13) return;
-  const bodyItems = Array.from(todoBody.childNodes);
+  const bodyItems = Array.from(toDoBody.childNodes);
   const inputFindValue = bottomInput.value;
   const isSame = (item) => {
     if (
@@ -164,7 +160,7 @@ const todoFilter = (e) => {
   });
   findedItem.forEach((item) => {
     item.style.background = "pink";
-    todoBody.insertAdjacentElement("afterbegin", item);
+    toDoBody.insertAdjacentElement("afterbegin", item);
   });
 };
 
@@ -268,8 +264,6 @@ for (let i = 0; i < allCount; ++i) {
   toDoBody.append(listWrapperClone);
   listText.innerText = listText.innerText;
 }
-
-const todoHead = document.getElementById("rootHeader");
 
 bottomButtonShowCompleted.addEventListener("click", showCompleted);
 topButtonDeleteLast.addEventListener("click", todoDeleteLast);
